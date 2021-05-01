@@ -1,0 +1,42 @@
+.Cards {
+  width: 100%;
+}
+
+.Card {
+  background-color: rgb(49, 55, 70);
+  margin-bottom: 12px;
+  padding: 6px 8px;
+  height: auto;
+  width: 100%;
+  cursor: pointer;
+  position: relative;
+}
+.Card::before {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 5px;
+  z-index: 5;
+}
+.Card::before {
+  top: 2px;
+  left: 2px;
+  border-radius: 4px;
+  background: linear-gradient(87deg,#fb6340,#fbb140);
+}
+
+.Card-title {
+  color: #fff;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.Card-description {
+  color: #fff;
+  font-family: Open Sans,sans-serif;
+  font-size: 16px;
+  padding: 6px 8px 2px;
+  height: auto;
+  width: 100%;
+  cursor: pointer;
+}
