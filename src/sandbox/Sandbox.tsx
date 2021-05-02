@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link
 } from "react-router-dom";
+import { DragDropContext, Droppable, Draggable, } from "react-beautiful-dnd";
 import './sandbox.css'
 
 function Sandbox() {
@@ -25,15 +26,40 @@ const Top = () => {
   )
 }
 
+
+//import { DragDropContext, Droppable } from "react-beautiful-dnd";
 const DND = () => {
+  const [items, setItems] = useState([{id: 1}, {id: 2}, {id: 3}]);
+  function handleOnDragEnd(result: any) {
+    console.log('sss');
+    
+    const itemsClone = Array.from(items);
+    const [reorderedItem] = itemsClone.splice(result.source.index, 1);
+    itemsClone.splice(result.destination.index, 0, reorderedItem);
+
+    setItems([{id: 1}, {id: 3}, {id: 2}]);
+  }
+
   return (
     <div className="DND">
-      <ul className="DND-list">
-        <li>1</li><li>2</li><li>3</li>
-      </ul>
-      <ul className="DND-list">
-        <li>4</li><li>5</li><li>6</li>
-      </ul>
+      <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Droppable droppableId="characters">
+          {(provided) => (
+            <ul className="DND-list"
+              {...provided.droppableProps}
+              ref={provided.innerRef}>
+              {items.map((item, index) => {
+                return (
+                  <Draggable key={item.id} draggableId={item.id.toString()} index={index}>
+                  {(provided) => (
+                    <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>{item.id}</li>
+                  )}</Draggable>
+                )
+              })}
+            </ul>
+          )}
+          </Droppable>
+      </DragDropContext>
     </div>
   )
 }
