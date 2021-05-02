@@ -36,8 +36,8 @@ const CardWrapper: React.FC<Props> = ({children, listId}) => {
 
   return (
     <ul className="Cards">
-      {cards.map(card => (
-        <Card key={card.id} data={card} />
+      {cards.map((card, index) => (
+        <Card key={card.id} data={card} index={index} />
       ))}
     </ul>
   )

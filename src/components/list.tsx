@@ -1,6 +1,7 @@
 import React from 'react';
 import CardsWrapper from './cardsWrapper'
 import '../List.css';
+import { Droppable } from 'react-beautiful-dnd';
 
 //function Card() {
 type Props = {
@@ -9,23 +10,18 @@ type Props = {
 }
 
 const List: React.FC<Props> = ({children, data, cardUpdate}) => {
-  const dropHandler = (e: React.DragEvent<Element>) => {
-    e.preventDefault();
-    //e.dataTransfer.dropEffect = "move";
-    const cardId = parseInt(JSON.parse(e.dataTransfer.getData('text/plain')).cardId)
-    const params = {id: cardId, list_id: data.id}
-    cardUpdate(params)
-  }
-
-  const dragoverHandler = (e: React.DragEvent<Element>) => {
-    e.preventDefault();
-  }
-
   return (
-    <li className="List" onDrop={dropHandler} onDragOver={dragoverHandler}>
-      <div className="List-title">{data.title}</div>
-      <CardsWrapper listId={data.id} />
-    </li>
+    <Droppable droppableId={data.id.toString()}>
+      {(provided) => (
+      <li
+        className="List"
+        ref={provided.innerRef}
+      >
+        <div className="List-title">{data.title}</div>
+        <CardsWrapper listId={data.id} />
+      </li>
+      )}
+    </Droppable>
   )
 }
 

@@ -28,6 +28,8 @@ const Top = () => {
 
 
 // https://dev.classmethod.jp/articles/react-beautiful-dnd-react-ts/
+// placeholderのカスタマイズ: https://codesandbox.io/s/2lmf1?file=/src/App.js
+// virtual-listを使うため、複数リストにてplaceholderを利用すると問題が出る（placeholderを使いたい場合どうするべきか） https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/patterns/virtual-lists.md
 //import { DragDropContext, Droppable, Draggable, } from "react-beautiful-dnd";
 const DND = () => {
   const [items, setItems] = useState([{id: 1}, {id: 2}, {id: 3}]);
@@ -54,7 +56,12 @@ const DND = () => {
                 return (
                   <Draggable key={item.id} draggableId={item.id.toString()} index={index}>
                   {(provided) => (
-                    <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>{item.id}</li>
+                    <li
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}>
+                      {item.id}
+                    </li>
                   )}</Draggable>
                 )
               })}
