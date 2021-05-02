@@ -27,21 +27,23 @@ const Top = () => {
 }
 
 
-//import { DragDropContext, Droppable } from "react-beautiful-dnd";
+// https://dev.classmethod.jp/articles/react-beautiful-dnd-react-ts/
+//import { DragDropContext, Droppable, Draggable, } from "react-beautiful-dnd";
 const DND = () => {
   const [items, setItems] = useState([{id: 1}, {id: 2}, {id: 3}]);
   function handleOnDragEnd(result: any) {
-    console.log('sss');
+    console.log('dnd handleOnDragEnd');
     
     const itemsClone = Array.from(items);
     const [reorderedItem] = itemsClone.splice(result.source.index, 1);
     itemsClone.splice(result.destination.index, 0, reorderedItem);
 
-    setItems([{id: 1}, {id: 3}, {id: 2}]);
+    setItems(itemsClone);
   }
 
   return (
     <div className="DND">
+      <h2>react-beautiful-dnd サンプル</h2>
       <DragDropContext onDragEnd={handleOnDragEnd}>
           <Droppable droppableId="characters">
           {(provided) => (
