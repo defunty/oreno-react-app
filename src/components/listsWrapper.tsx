@@ -9,27 +9,26 @@ import '../List.css';
 function ListWrapper() {
   type ListType = {id: number, title: string}
   type ListsType = ListType[]
-  //const [lists, setLists] = useState<ListsType>([])
 
   type CardType = {id: number, list_id: number, title: string, description: string}
   type CardsType = {[key: number]: CardType[]}
-  //const [listCards, setListCards] = useState<CardsType>({}) //cardsはCardコンポーネントで管理した方が良い？（とりあえず親コンポーネントで一括管理）
-
 
   const getListsUrl = 'http://localhost:3001/lists'
 
   const getLists: any = () => {
       return new Promise((resolve, reject) => {
         axios.get(getListsUrl)
-        .then(async function (response) {
-          resolve(response.data)
+        .then(function (response) {
+          //resolve(response.data)
+          // loadingに時間がかかることを想定して記述（loading処理確認のため）
+          setTimeout(() => {
+            console.log('finish getLists');
+            resolve(response.data)
+          },1000)
         })
         .catch(function (error) {
           // handle error
           console.log(error);
-        })
-        .then(function () {
-          // always executed
         });
       })
   }
@@ -53,14 +52,12 @@ function ListWrapper() {
               }
               tmpCards[data.list_id].push(data)
             })
+            console.log('finish getListCards')
             resolve(tmpCards)
           })
           .catch(function (error) {
             // handle error
             console.log(error);
-          })
-          .then(function () {
-            // always executed
           });
         })
     }
@@ -87,17 +84,6 @@ function ListWrapper() {
     //  lists: ListsType,
     //  listCards: CardsType
     //}
-    const aaa = () => {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          console.log('settimeout');
-          resolve(10)
-        }, 3000)
-      })
-    }
-    const bbb = (e: any) => {
-      console.log(dataState.count);
-    }
 
     const init = () => {
       dispatch({type: 'startLoading'})
@@ -117,32 +103,15 @@ function ListWrapper() {
     }
 
     const reducer = (state: any, action: any) => {
-      console.log('reducer');
       switch (action.type){
         case 'getLists':
-          return {
-            lists: action.payload,
-            listCards: state.listCards,
-            isLoading: true,
-          }
+          return {...state, lists: action.payload}
         case 'getListCards':
-          return {
-            lists: state.lists,
-            listCards: action.payload,
-            isLoading: true
-          }
+          return {...state, listCards: action.payload}
         case 'startLoading':
-          return {
-            lists: state.lists,
-            listCards: state.listCards,
-            isLoading: true
-          }
+          return {...state, isLoading: true}
         case 'finishLoading':
-          return {
-            lists: state.lists,
-            listCards: state.listCards,
-            isLoading: false
-          }
+          return {...state, isLoading: false}
         default:
           return state
       }
@@ -154,75 +123,6 @@ function ListWrapper() {
     useEffect(() => {
       init();
     }, [])
-
-    //function reducer(state: [], action) {
-    //  switch (action.type) {
-    //    case 'increment':
-    //      return {count: state.count + 1};
-    //    case 'decrement':
-    //      return {count: state.count - 1};
-    //    default:
-    //      throw new Error();
-    //  }
-    //}
-
-  /*
-  useEffect(() => {
-    axios.get(getListsUrl)
-      .then(function (response) {
-        // handle success
-        const tmpLists:ListsType = []
-        response.data.forEach((data: ListType) => {
-          tmpLists.push(data)
-        })
-        setLists(tmpLists)
-        getListCards(tmpLists)
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      })
-      .then(function () {
-        // always executed
-      });
-
-
-    const getListCards = (tmpLists:ListsType ) => {
-      let getCardsUrl = `http://localhost:3001/cards?`
-      tmpLists.forEach((list) => {
-        getCardsUrl += `list_id=${list.id}&`
-      })
-      getCardsUrl = getCardsUrl.slice(0,-1)
-      console.log(getCardsUrl);
-      
-      axios.get(getCardsUrl)
-        .then(function (response) {
-          // handle success
-          const tmpCards:CardsType = {}
-          response.data.forEach((data: CardType) => {
-            if(!(data.list_id in tmpCards)) {
-              tmpCards[data.list_id] = []
-            }
-            tmpCards[data.list_id].push(data)
-          })
-          //console.log(listCards);
-          
-          setListCards(tmpCards)
-          console.log('sss');
-          
-          console.log(listCards);
-          
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error);
-        })
-        .then(function () {
-          // always executed
-        });
-    }
-  }, [getListsUrl]);
-  */
 
   const handleOnDragEnd = (result: any) => {
     console.log('drop');
