@@ -10,7 +10,7 @@ function ListWrapper() {
   type ListType = {id: number, title: string}
   type ListsType = ListType[]
 
-  type CardType = {id: number, list_id: number, title: string, description: string}
+  type CardType = {id: number, list_id: number, title: string, description: string, order: number}
   type CardsType = {[key: number]: CardType[]}
 
   const getLists = () => {
@@ -34,7 +34,7 @@ function ListWrapper() {
 
   const getListCards = (tmpLists:ListsType) => {
     return new Promise<CardsType>((resolve, reject) => {
-      let getCardsUrl = `http://localhost:3001/cards?`
+      let getCardsUrl = `http://localhost:3001/cards?_sort=order&`
       tmpLists.forEach((list) => {
         getCardsUrl += `list_id=${list.id}&`
       })
@@ -104,6 +104,7 @@ function ListWrapper() {
   type ActionType = 
     | {type: 'getLists', payload: ListsType}
     | {type: 'getListCards', payload: CardsType}
+    | {type: 'reorderListCards', payload: CardsType}
     | {type: 'startLoading'}
     | {type: 'finishLoading'}
 
@@ -115,6 +116,8 @@ function ListWrapper() {
         return {...state, listCards: action.payload}
       case 'startLoading':
         return {...state, isLoading: true}
+      case 'reorderListCards':
+        return {...state, listCards: action.payload}
       case 'finishLoading':
         return {...state, isLoading: false}
       default:
@@ -129,11 +132,70 @@ function ListWrapper() {
     init();
   }, [])
 
+
+  const reorder = (listCards: CardsType, listId: number, startIndex: number, endIndex: number) => {
+    console.log('reorder');
+    const result = listCards;
+    const [removed] = result[listId].splice(startIndex, 1);
+    result[listId].splice(endIndex, 0, removed);
+    return result;
+  };
+  const move = (listCards: CardsType, source: any, destination: any) => {
+    console.log('move');
+    const sourceClone = Array.from(listCards[parseInt(source.droppableId)]);
+    const destClone = Array.from(listCards[parseInt(destination.droppableId)]);
+    const [removed] = sourceClone.splice(source.index, 1);
+    destClone.splice(destination.index, 0, removed);
+    const result: CardsType = listCards;
+    result[parseInt(source.droppableId)] = sourceClone;
+    result[parseInt(destination.droppableId)] = destClone;
+    return result;
+};
+
   const handleOnDragEnd = (result: any) => {
-    console.log('drop');
-    const listsClone = Array.from(dataState.lists);
-    const [reorderedLists] = listsClone.splice(result.source.index, 1);
-    listsClone.splice(result.destination.index, 0, reorderedLists);
+    const { source, destination } = result;
+    if (!destination) {
+      return;
+    }
+    if (source.droppableId === destination.droppableId) {
+      console.log(source.droppableId);
+      console.log(destination.droppableId);
+      console.log(dataState.listCards[parseInt(source.droppableId)]);
+      const listCards = reorder(
+        dataState.listCards,
+        parseInt(source.droppableId),
+        parseInt(source.index),
+        parseInt(destination.index)
+      );
+      // この処理は必要？（必要なさそう）
+      //if (source.droppableId === 'droppable2') {
+      //  state = { selected: items };
+      //}
+      dispatch({type: 'reorderListCards', payload: listCards})
+    } else {
+      console.log('debgu');
+      const listCards = move(
+        //this.getList(source.droppableId),
+        //this.getList(destination.droppableId),
+        dataState.listCards,
+        source,
+        destination
+      );
+      dispatch({type: 'reorderListCards', payload: listCards})
+      //console.log(result);
+      
+      //this.setState({
+      //  items: result.droppable,
+      //  selected: result.droppable2
+      //});
+    }
+
+    //console.log('drop');
+    //const listsClone = Array.from(dataState.lists);
+    //const [reorderedLists] = listsClone.splice(result.source.index, 1);
+    //
+    //listsClone.splice(result.destination.index, 0, reorderedLists);
+    //console.log(listsClone)
   }
 
   const listsJSX = () => {

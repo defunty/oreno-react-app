@@ -16,25 +16,29 @@
       "id": 1,
       "list_id": 1,
       "title": "サイトを良い感じにする",
-      "description": "良い感じにするぞー"
+      "description": "良い感じにするぞー",
+      "order": 65535.0
     },
     {
       "id": 2,
-      "list_id": 2,
+      "list_id": 1,
       "title": "最低限必要な機能の定義",
-      "description": ""
+      "description": "",
+      "order": 131070.0
     },
     {
       "id": 3,
-      "list_id": 1,
+      "list_id": 2,
       "title": "ChakuraUIで構成し直す",
-      "description": "https://chakra-ui.com/"
+      "description": "https://chakra-ui.com/",
+      "order": 196605.0
     },
     {
       "id": 4,
       "list_id": 2,
       "title": "test ticket",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "order": 262140.0
     }
   ]
 }
