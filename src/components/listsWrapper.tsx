@@ -89,22 +89,25 @@ function ListWrapper() {
     listCards: {},
     isLoading: true
   }
-
-  const init = () => {
-    dispatch({type: 'startLoading'})
+  const init = (initialState: StateType) => {
+    // ここでfetchDataをしたいが、時間がかかってrenderに間に合わない。useEffectで代用
+    return initialState
+  }
+  const fetchData = () => {
     getLists().then(lists => {
       getListCards(lists).then(cards => {
-        dispatch({type: 'getLists', payload: lists})
-        dispatch({type: 'getListCards', payload: cards})
-        dispatch({type: 'finishLoading'})
+        //dispatch({type: 'getLists', payload: lists})
+        //dispatch({type: 'getListCards', payload: cards})
+        //dispatch({type: 'finishLoading'})
+        dispatch({type: 'fetchData', payload: {lists: lists, listCards: cards, isLoading: false}})
       })
     })
   }
-
   type ActionType = 
     | {type: 'getLists', payload: ListsType}
     | {type: 'getListCards', payload: CardsType}
     | {type: 'reorderListCards', payload: CardsType}
+    | {type: 'fetchData', payload: StateType}
     | {type: 'startLoading'}
     | {type: 'finishLoading'}
 
@@ -114,22 +117,22 @@ function ListWrapper() {
         return {...state, lists: action.payload}
       case 'getListCards':
         return {...state, listCards: action.payload}
-      case 'startLoading':
-        return {...state, isLoading: true}
       case 'reorderListCards':
         return {...state, listCards: action.payload}
+      case 'fetchData':
+        init(initialState)
+        return {...action.payload}
+      case 'startLoading':
+        return {...state, isLoading: true}
       case 'finishLoading':
         return {...state, isLoading: false}
       default:
         return state
     }
   }
-
-  const [dataState, dispatch] = useReducer(reducer, initialState);
-
-  // useEffectを使わずにinitialState()で最初からローディングした値を渡したい（dispatchを利用する？）
+  const [dataState, dispatch] = useReducer(reducer, initialState, init);
   useEffect(() => {
-    init();
+    fetchData()
   }, [])
 
   const reorder = (listCards: CardsType, listId: number, startIndex: number, endIndex: number) => {
