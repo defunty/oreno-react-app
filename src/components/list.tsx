@@ -7,9 +7,10 @@ import { Droppable } from 'react-beautiful-dnd';
 type Props = {
   data: {id: number, title: string};
   cardUpdate: any; //関数自体をpropsで渡す場合はどうするか
+  cards: {id: number, list_id: number, title: string, description: string}[];
 }
 
-const List: React.FC<Props> = ({children, data, cardUpdate}) => {
+const List: React.FC<Props> = ({children, data, cardUpdate, cards}) => {
   return (
     <Droppable droppableId={data.id.toString()}>
       {(provided) => (
@@ -18,7 +19,7 @@ const List: React.FC<Props> = ({children, data, cardUpdate}) => {
         ref={provided.innerRef}
       >
         <div className="List-title">{data.title}</div>
-        <CardsWrapper listId={data.id} />
+        <CardsWrapper listId={data.id} cards={cards} />
       </li>
       )}
     </Droppable>
