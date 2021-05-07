@@ -6,7 +6,7 @@ import {
   Link
 } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable, } from "react-beautiful-dnd";
-import './sandbox.css'
+import './sandbox.scss'
 
 function Sandbox() {
   return (

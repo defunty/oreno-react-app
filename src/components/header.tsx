@@ -40,7 +40,7 @@ import {
   RepeatIcon
 } from '@chakra-ui/icons'
 
-import '../Header.css';
+import '../Header.scss';
 
 function Header() {
   return (

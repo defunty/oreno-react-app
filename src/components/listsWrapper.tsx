@@ -3,7 +3,7 @@ import axios from 'axios'
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import List from './list'
 //import { getLists } from "./request";
-import '../List.css';
+import '../List.scss';
 
 
 function ListWrapper() {

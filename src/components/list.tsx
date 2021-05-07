@@ -1,6 +1,6 @@
 import React from 'react';
 import CardsWrapper from './cardsWrapper'
-import '../List.css';
+import '../List.scss';
 import { Droppable } from 'react-beautiful-dnd';
 
 //function Card() {

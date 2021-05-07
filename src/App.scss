@@ -1,18 +1,8 @@
-* {
-  color: #fff;
-  letter-spacing: 0.1em;
-  font-family: "PT Sans", Arial, sans-serif;
-}
-* {
-  box-sizing: border-box;
-}
-ul, li {
-  display: block;
-  margin: 0;
-  padding: 0;
-}
+@import "./base.scss";
 
 .Container {
+  /*background-color: rgb(33, 36, 45);*/
+  background-color: $bg-color;
   min-width: 100vw;
   width: 100%;
   min-height: 100vh;
@@ -22,55 +12,56 @@ ul, li {
   /*background-color: #23282C;*/
   /*background-color: #fff;*/
   /*background-image: url(./bg.jpg);*/
-  background-color: rgb(33, 36, 45);
 }
 .Header {
   background-color:rgba(0,0,0,.32);
   display: flex;
+  .Header-first-block {
+    display: flex;
+  }
+  .Header-second-block {
+    display: flex;
+  }
+  .Header-third-block {
+    display: flex;
+  }
+  .Header-icon {
+    display: flex;
+    height: 20px;
+    width: 20px;
+    border-radius: 3px;
+    border: 0;
+    text-decoration: none;
+    align-items: center;
+    background-color: hsla(0,0%,100%,.3);
+    box-shadow: none;
+  }
 }
-.Header-first-block {
-  display: flex;
-}
-.Header-second-block {
-  display: flex;
-}
-.Header-third-block {
-  display: flex;
-}
-.Header-icon {
-  display: flex;
-  height: 20px;
-  width: 20px;
-  border-radius: 3px;
-  border: 0;
-  text-decoration: none;
-  align-items: center;
-  background-color: hsla(0,0%,100%,.3);
-  box-shadow: none;
-}
+
 .Menus {
   display: flex;
   margin-bottom: 4px;
   padding: 8px 4px 4px 8px;
   width: 100%;
+  .Menus-menu {
+    background-color: rgba(0,0,0,.08);
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 4px;
+    padding: 0 12px;
+    height: 32px;
+    line-height: 32px;
+  }
+  .Menus-menu:last-of-type {
+    margin-right: 0;
+  }
+  .Menus-menu:hover {
+    background-color: rgba(0,0,0,.16);
+  }
 }
-.Menus-menu {
-  background-color: rgba(0,0,0,.08);
-  border-radius: 3px;
-  color: #fff;
-  cursor: pointer;
-  font-size: 14px;
-  margin-right: 4px;
-  padding: 0 12px;
-  height: 32px;
-  line-height: 32px;
-}
-.Menus-menu:last-of-type {
-  margin-right: 0;
-}
-.Menus-menu:hover {
-  background-color: rgba(0,0,0,.16);
-}
+
 
 /*
 .App {

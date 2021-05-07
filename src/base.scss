@@ -1,0 +1,32 @@
+$bg-color: #dad3c1;
+$main-color: #1d1b17;
+$caret-color: #1d1b17;
+$sub-color: #918b7d;
+$text-color: #1d1b17;
+$error-color: #bf616a;
+$error-extra-color: #793e44;
+$colorful-error-color: #bf616a;
+$colorful-error-extra-color: #793e44;
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&family=Roboto+Mono:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+
+/*
+color: rgb(49, 55, 70);
+background-color: linear-gradient(87deg,#fb6340,#fbb140);
+*/
+
+* {
+  color: #fff;
+  letter-spacing: 0.1em;
+  /*font-family: "PT Sans", Arial, sans-serif;*/
+  font-family: 'Roboto Mono', monospace, 'M PLUS Rounded 1c', sans-serif;
+}
+* {
+  box-sizing: border-box;
+}
+ul, li {
+  display: block;
+  margin: 0;
+  padding: 0;
+}

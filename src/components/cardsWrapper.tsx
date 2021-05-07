@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import Card from './card'
-import '../Card.css';
+import '../Card.scss';
 
 //function Card() {
 type Props = {
