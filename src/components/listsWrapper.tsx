@@ -62,17 +62,20 @@ function ListWrapper() {
     }
 
   // fix me: request用のコンポーネントとカスタムフックを作成し、そこを参照する
-  const cardUpdate = (params:{id: number, list_id: number}) => {
-    const postUrl = `http://localhost:3001/cards/${params.id}`
-    axios.patch(postUrl, params)
-      .then(function (response) {
-        console.log('finish cardUpdate')
-        // stateを変える処理を追加する
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      });
+  const cardUpdate = (params:{id: number, list_id: number, order: number}) => {
+    return new Promise<boolean>((resolve, reject) => {
+      const postUrl = `http://localhost:3001/cards/${params.id}`
+      axios.patch(postUrl, params)
+        .then(function (response) {
+          resolve(true)
+          console.log('finish cardUpdate')
+          // stateを変える処理を追加する
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        });
+    })
   }
 
   type StateType = {
@@ -139,8 +142,8 @@ function ListWrapper() {
     const destClone = Array.from(listCards[parseInt(destination.droppableId)]);
     const [removed] = destClone.splice(parseInt(source.index), 1);
     const destinationIndex = parseInt(destination.index)
-    const destCloneLength = destClone.length
     destClone.splice(destinationIndex, 0, removed);
+    const destCloneLength = destClone.length
 
     if(destCloneLength !== 1) {
       // 移動先のlistに移動したcard以外のcardが存在している場合
@@ -163,13 +166,14 @@ function ListWrapper() {
     result[parseInt(destination.droppableId)] = destClone;
     return result;
   };
+
   const move = (listCards: CardsType, source: any, destination: any) => {
     const sourceClone = Array.from(listCards[parseInt(source.droppableId)]);
     const destClone = Array.from(listCards[parseInt(destination.droppableId)]);
     const [removed] = sourceClone.splice(parseInt(source.index), 1);
     const destinationIndex = parseInt(destination.index)
-    const destCloneLength = destClone.length
     destClone.splice(destinationIndex, 0, removed);
+    const destCloneLength = destClone.length
 
     if(destCloneLength !== 0) {
       // 移動先のlistに移動したcard以外のcardが存在している場合
@@ -206,6 +210,8 @@ function ListWrapper() {
         destination
       );
       dispatch({type: 'reorderListCards', payload: listCards})
+      const transferredCard: CardType = listCards[parseInt(destination.droppableId)][parseInt(destination.index)]
+      cardUpdate({id: transferredCard.id, list_id: parseInt(destination.droppableId), order: transferredCard.order})
     } else {
       const listCards = move(
         dataState.listCards,
@@ -213,6 +219,8 @@ function ListWrapper() {
         destination
       );
       dispatch({type: 'reorderListCards', payload: listCards})
+      const transferredCard: CardType = listCards[parseInt(destination.droppableId)][parseInt(destination.index)]
+      cardUpdate({id: transferredCard.id, list_id: parseInt(destination.droppableId), order: transferredCard.order})
     }
   }
 
