@@ -3,7 +3,7 @@ import { Draggable } from "react-beautiful-dnd";
 
 //function Card() {
 type Props = {
-  data: {id: number, list_id: number, title: string, description: string};
+  data: {id: number, list_id: number, title: string, description: string, order: number};
   index: number;
 }
 
@@ -32,7 +32,7 @@ const Card: React.FC<Props> = ({children, data, index}) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <div className="Card-title">{data.title}</div>
+          <div className="Card-title">{data.title}</div>{data.order}
           <div className="Card-description">{data.description}</div>
         </li>
       )}

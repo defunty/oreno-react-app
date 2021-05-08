@@ -135,22 +135,67 @@ function ListWrapper() {
     fetchData()
   }, [])
 
-  const reorder = (listCards: CardsType, listId: number, startIndex: number, endIndex: number) => {
-    const result = listCards;
-    const [removed] = result[listId].splice(startIndex, 1);
-    result[listId].splice(endIndex, 0, removed);
+  const reorder = (listCards: CardsType, source: any, destination: any) => {
+    console.log('sss');
+    const destClone = Array.from(listCards[parseInt(destination.droppableId)]);
+    console.log(destClone);
+
+    const [removed] = destClone.splice(parseInt(source.index), 1);
+    const destinationIndex = parseInt(destination.index)
+    const destCloneLength = destClone.length
+    destClone.splice(destinationIndex, 0, removed);
+
+    if(destCloneLength !== 1) {
+      // 移動先のlistに移動したcard以外のcardが存在している場合
+      if(destinationIndex === 0) {
+        // cardの移動先がlist最上部の場合
+        const nextCard = destClone[destinationIndex + 1]
+        destClone[destinationIndex].order = nextCard.order * 0.5
+      } else if(destCloneLength === destinationIndex + 1){
+        const prevCard = destClone[destinationIndex - 1]
+        //const destinationOrder = destClone[destinationIndex].order
+        destClone[destinationIndex].order = prevCard.order * 1.5
+      } else {
+        const prevCard = destClone[destinationIndex - 1]
+        const nextCard = destClone[destinationIndex + 1]
+        destClone[destinationIndex].order = (prevCard.order + nextCard.order) / 2.0
+      }
+    }
+
+    const result: CardsType = listCards;
+    result[parseInt(destination.droppableId)] = destClone;
     return result;
   };
   const move = (listCards: CardsType, source: any, destination: any) => {
     const sourceClone = Array.from(listCards[parseInt(source.droppableId)]);
     const destClone = Array.from(listCards[parseInt(destination.droppableId)]);
-    const [removed] = sourceClone.splice(source.index, 1);
-    destClone.splice(destination.index, 0, removed);
+    const [removed] = sourceClone.splice(parseInt(source.index), 1);
+    const destinationIndex = parseInt(destination.index)
+    const destCloneLength = destClone.length
+    destClone.splice(destinationIndex, 0, removed);
+
+    if(destCloneLength !== 0) {
+      // 移動先のlistに移動したcard以外のcardが存在している場合
+      if(destinationIndex === 0) {
+        // cardの移動先がlist最上部の場合
+        const nextCard = destClone[destinationIndex + 1]
+        destClone[destinationIndex].order = nextCard.order * 0.5
+      } else if(destCloneLength === destinationIndex + 1){
+        const prevCard = destClone[destinationIndex - 1]
+        //const destinationOrder = destClone[destinationIndex].order
+        destClone[destinationIndex].order = prevCard.order * 1.5
+      } else {
+        const prevCard = destClone[destinationIndex - 1]
+        const nextCard = destClone[destinationIndex + 1]
+        destClone[destinationIndex].order = (prevCard.order + nextCard.order) / 2.0
+      }
+    }
+
     const result: CardsType = listCards;
     result[parseInt(source.droppableId)] = sourceClone;
     result[parseInt(destination.droppableId)] = destClone;
     return result;
-};
+  };
 
   const handleOnDragEnd = (result: any) => {
     const { source, destination } = result;
@@ -160,13 +205,16 @@ function ListWrapper() {
     if (source.droppableId === destination.droppableId) {
       const listCards = reorder(
         dataState.listCards,
-        parseInt(source.droppableId),
-        parseInt(source.index),
-        parseInt(destination.index)
+        source,
+        destination
       );
       dispatch({type: 'reorderListCards', payload: listCards})
     } else {
-      const listCards = move(dataState.listCards, source, destination);
+      const listCards = move(
+        dataState.listCards,
+        source,
+        destination
+      );
       dispatch({type: 'reorderListCards', payload: listCards})
     }
   }

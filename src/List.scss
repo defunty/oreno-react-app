@@ -3,6 +3,16 @@
 .Lists {
   display: flex;
   padding: 0 8px;
+
+  .List-title {
+    font-weight: bold;
+    border-radius: 6px;
+    color: $text-color;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 10px 8px;
+    min-height: 20px;
+  }
 }
 .List {
   width: 272px;
@@ -15,13 +25,4 @@
 }
 .List:last-of-type {
   margin-right: 0;
-}
-.List-title {
-  font-weight: bold;
-  border-radius: 6px;
-  color: $text-color;
-  font-size: 14px;
-  line-height: 20px;
-  padding: 10px 8px;
-  min-height: 20px;
 }
