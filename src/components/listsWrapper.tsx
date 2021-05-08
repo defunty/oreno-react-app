@@ -136,10 +136,7 @@ function ListWrapper() {
   }, [])
 
   const reorder = (listCards: CardsType, source: any, destination: any) => {
-    console.log('sss');
     const destClone = Array.from(listCards[parseInt(destination.droppableId)]);
-    console.log(destClone);
-
     const [removed] = destClone.splice(parseInt(source.index), 1);
     const destinationIndex = parseInt(destination.index)
     const destCloneLength = destClone.length
@@ -225,7 +222,7 @@ function ListWrapper() {
     }else{
       return(
         dataState.lists.map((list: ListType) => (
-          <List data={list} key={list.id} cardUpdate={ (params:{id: number, list_id: number}) => cardUpdate(params) } cards={dataState.listCards[list.id]} />
+          <List data={list} key={list.id} cards={dataState.listCards[list.id]} />
         ))
       )
     }
