@@ -1,0 +1,35 @@
+.Container {
+  background-color: rgb(33, 36, 45)!important;
+
+  button {
+    background-color: #dad3c1;
+    border-radius: 3px;
+    color: #333;
+    margin-left: 20px;
+    padding: 10px 14px;
+    width: auto;
+    margin-bottom: 20px;
+  }
+  .red {
+    color: red;
+  }
+  .green {
+    color: green;
+  }
+  .blue {
+    color: blue;
+  }
+}
+
+.title {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.ButtonWrapper {
+  display: flex;
+}
+
+.BalletWrapper {
+  display: flex;
+}
