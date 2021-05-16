@@ -1,4 +1,14 @@
 import React from 'react';
+/*
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from 'recoil';
+*/
+import { RecoilRoot } from 'recoil';
 import Home from './Home'
 import Terms from './Terms';
 import Sandbox from './sandbox/Sandbox';
@@ -15,17 +25,19 @@ function App() {
   return (
     <Router>
       <div className="Container">
-        <Switch>
-          <Route path="/terms">
-            <Terms />
-          </Route>
-          <Route path="/sb">
-            <Sandbox />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
+        <RecoilRoot>
+          <Switch>
+            <Route path="/terms">
+              <Terms />
+            </Route>
+            <Route path="/sb">
+              <Sandbox />
+            </Route>
+            <Route path="/">
+              <Home />
+            </Route>
+          </Switch>
+        </RecoilRoot>
       </div>
     </Router>
   )
